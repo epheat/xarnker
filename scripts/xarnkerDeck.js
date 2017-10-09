@@ -25,20 +25,50 @@ function Deck() {
   this.shuffle();
 
   // pop and return the top card of the deck.
-  this.deal = function() {
-    return this.cards.pop();
+  this.draw = function() {
+    if (this.cards.length > 0) {
+      return this.cards.pop();
+    } else {
+      return null;
+    }
   }
 }
 
 // Hand object constructor
-function Hand(deck) {
+function Hand(card0, card1, card2) {
   this.cards = [];
-  for (var i=0; i<3; i++) {
-    this.cards.push(deck.deal());
-  }
+  this.cards.push(card0);
+  this.cards.push(card1);
+  this.cards.push(card2);
 
   this.eval = function() {
     // evaluate how many points this hand is worth
+  }
+}
+
+// Discard pile object constructor
+function DiscardPile(topCard) {
+  this.cards = [topCard];
+
+  // pop and return the top card of the discard pile.
+  this.draw = function() {
+    if (this.cards.length > 0) {
+      return this.cards.pop();
+    } else {
+      return null;
+    }
+  }
+  // place a new card on top of the discard pile
+  this.place = function(card) {
+    this.cards.push(card);
+  }
+  // look at the top card of the discard pile
+  this.peek = function() {
+    if (this.cards.length > 0) {
+      return this.cards[this.cards.length - 1];
+    } else {
+      return null;
+    }
   }
 }
 
