@@ -15,29 +15,41 @@
   <script src="scripts/xarnkerDeck.js"></script>
   <script src="scripts/xarnkerHelpers.js"></script>
 
+  <!-- fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+
 </head>
 <body>
   <div id="app">
     <h1>Xarnker</h1>
     <div id="table">
       <div id="playerHandContainer">
-        <img id="playerCard0" class="card"/>
-        <img id="playerCard1" class="card"/>
-        <img id="playerCard2" class="card"/>
+        <img id="playerCard0" class="card playercard" onclick="playerDiscard(0)"/>
+        <img id="playerCard1" class="card playercard" onclick="playerDiscard(1)"/>
+        <img id="playerCard2" class="card playercard" onclick="playerDiscard(2)"/>
+        <img id="playerCard3" class="card playercard" onclick="playerDiscard(3)"/>
       </div>
       <div id="computerHandContainer">
         <img id="computerCard0" class="card"/>
         <img id="computerCard1" class="card"/>
         <img id="computerCard2" class="card"/>
+        <img id="computerCard3" class="card"/>
       </div>
       <div id="deckDiscardContainer">
         <div class="pile">
-          <img id="deck" class="card" src="assets/cardback_small.png"/>
+          <img id="deck" class="card" src="assets/cardback_small.png" onclick="drawDeck()"/>
         </div>
         <div class="pile">
           <img id="discard" class="card" onclick="drawDiscard()"/>
         </div>
       </div>
+      <div id="deckDiscardTip" class="tip shown">
+        <h3>Draw a card from the deck or discard pile to add to your hand.</h3>
+      </div>
+      <div id="playerHandTip" class="tip">
+        <h3>Choose a card to discard from your hand.</h3>
+      </div>
+
     </div>
   </div>
 

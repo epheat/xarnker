@@ -5,7 +5,8 @@ h1 {
 #table {
   margin: 0 auto;
   width: 90%;
-  height: 400px;
+  min-width: 400px;
+  /*height: 400px;*/
 
   border-radius: 50px;
   border: 10px groove rgb(79, 72, 52);
@@ -13,26 +14,29 @@ h1 {
   background: radial-gradient(rgb(33, 161, 31), rgb(14, 106, 23));
 
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  grid-template-rows: repeat(9, 1fr);
+  grid-template-columns: 1fr 150px 150px 1fr;
+  grid-template-rows: repeat(5, 1fr);
+  grid-gap: 2px;
 }
 
 #playerHandContainer {
-  grid-row: 9 / 10;
-  grid-column: 2 / 9;
-  min-width: 250px;
+  grid-row: 5 / 6;
+  grid-column: 1 / 5;
+  margin-left: 50px;
+  min-width: 288px;
 }
 
 #computerHandContainer {
   grid-row: 1 / 2;
-  grid-column: 2 / 9;
-  min-width: 250px;
+  grid-column: 1 / 5;
+  min-width: 288px;
+  margin-right: 50px;
   text-align: right;
 }
 
 #deckDiscardContainer {
-  grid-row: 5 / 6;
-  grid-column: 2 / 9;
+  grid-row: 3 / 4;
+  grid-column: 2 / 4;
   text-align: center;
 }
 
@@ -45,8 +49,58 @@ h1 {
   height: 100px;
 
   cursor: pointer;
+
+  /* animated properties */
+  transition: opacity 0.4s;
+
 }
 
 .card {
+  position: relative;
+  bottom: 0;
   box-shadow: 0px 2px 2px rgb(34, 34, 34);
+
+  /* animated properties */
+  transition: opacity 0.5s, bottom 0.5s;
+}
+.playercard:hover {
+  bottom: 20px;
+}
+
+.discard {
+  outline: 3px solid rgba(255, 0, 0, 0.8);
+}
+
+.tip {
+  visibility: hidden;
+  text-align: center;
+  font-family: 'Roboto Slab', serif;
+  color: white;
+  line-height: 1;
+}
+
+.shown {
+  visibility: visible;
+}
+
+#deckDiscardTip {
+  position: relative;
+  grid-row: 4 / 5;
+  grid-column: 2 / 4;
+}
+#deckDiscardTip h3 {
+  margin: 0;
+  position: absolute;
+  top: 0;
+}
+
+#playerHandTip {
+  position: relative;
+  grid-row: 4 / 5;
+  grid-column: 2 / 5;
+}
+#playerHandTip h3 {
+  margin: 0;
+  position: absolute;
+  bottom: 0;
 }
