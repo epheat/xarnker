@@ -58,6 +58,14 @@ function Hand(cards, imgElements) {
     }
     return undefined;
   }
+  // remove undefined cards from the array
+  this.prune = function() {
+    for (var i=0; i<this.cards.length; i++) {
+      if (this.cards[i] == undefined) {
+        this.cards.splice(i, 1);
+      }
+    }
+  }
   // render the cards on-screen
   this.render = function() {
     for (var i=0; i<this.imgElements.length; i++) {
