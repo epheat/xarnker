@@ -3,11 +3,12 @@
 // created on 10/8/17
 
 // Deck object constructor
-function Deck() {
+function Deck(imgElement) {
   this.cards = [];
   for (var i=1; i<=40; i++) {
     this.cards.push(new XarnkerCard(i));
   }
+  this.imgElement = imgElement;
   this.draw = function() {
     // note: returns 'undefined' with an empty array
     return this.cards.pop();

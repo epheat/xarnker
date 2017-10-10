@@ -22,12 +22,13 @@
 <body>
   <div id="app">
     <h1>Xarnker</h1>
+    <button onclick="dealNewGame()">New Game</button>
     <div id="table">
       <div id="playerHandContainer">
-        <img id="playerCard0" class="card playercard" onclick="playerDiscard(0)"/>
-        <img id="playerCard1" class="card playercard" onclick="playerDiscard(1)"/>
-        <img id="playerCard2" class="card playercard" onclick="playerDiscard(2)"/>
-        <img id="playerCard3" class="card playercard" onclick="playerDiscard(3)"/>
+        <img id="playerCard0" class="card playercard"/>
+        <img id="playerCard1" class="card playercard"/>
+        <img id="playerCard2" class="card playercard"/>
+        <img id="playerCard3" class="card playercard"/>
       </div>
       <div id="computerHandContainer">
         <img id="computerCard0" class="card"/>
@@ -37,10 +38,10 @@
       </div>
       <div id="deckDiscardContainer">
         <div class="pile">
-          <img id="deck" class="card" src="assets/cardback_small.png" onclick="drawDeck()"/>
+          <img id="deck" class="card" src="assets/cardback_small.png"/>
         </div>
         <div class="pile">
-          <img id="discard" class="card" onclick="drawDiscard()"/>
+          <img id="discard" class="card"/>
         </div>
       </div>
       <div id="deckDiscardTip" class="tip shown">
