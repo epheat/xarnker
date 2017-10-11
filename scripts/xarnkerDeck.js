@@ -13,6 +13,11 @@ function Deck(imgElement) {
     // note: returns 'undefined' with an empty array
     return this.cards.pop();
   }
+  this.swap = function(i, j) {
+    var temp = this.cards[i];
+    this.cards[i] = this.cards[j];
+    this.cards[j] = temp;
+  }
   // shuffle the deck in place using a fisher-yates shuffle
   // https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
   this.shuffle = function() {
@@ -22,13 +27,13 @@ function Deck(imgElement) {
       var picked = Math.floor(Math.random() * divider);
       // and swap it with the element at the divider.
       // this causes all elements to the right of the divider to be shuffled as we iterate.
-      swap(this.cards, picked, divider);
+      this.swap(picked, divider);
     }
   }
 }
 
 // Hand object constructor
-function Hand(cards, imgElements) {
+function Hand(cards, imgElements, hideCards) {
   this.cards = [];
   for (var i=0; i<cards.length; i++) {
     this.cards.push(cards[i]);
@@ -37,6 +42,7 @@ function Hand(cards, imgElements) {
   for (var i=0; i<imgElements.length; i++) {
     this.imgElements.push(imgElements[i]);
   }
+  this.hideCards = hideCards;
   // evaluate how many points this hand is worth
   this.eval = function() {
 
@@ -71,7 +77,12 @@ function Hand(cards, imgElements) {
   this.render = function() {
     for (var i=0; i<this.imgElements.length; i++) {
       if (this.cards[i] != undefined) {
-        imgElements[i].setAttribute("src", "assets/deck/" + this.cards[i].img);
+        if (this.hideCards == true) {
+          // TODO: make this animation fade. Overlay img tags?
+          imgElements[i].setAttribute("src", "assets/cards/cardBack_blue5.png");
+        } else {
+          imgElements[i].setAttribute("src", "assets/cards/" + this.cards[i].img);
+        }
         imgElements[i].style.opacity = 1;
       } else {
         imgElements[i].style.opacity = 0;
@@ -106,7 +117,7 @@ function DiscardPile(topCard, imgElement) {
   this.render = function() {
     var topCard = this.peek();
     if (topCard != undefined) {
-      this.imgElement.setAttribute("src", "assets/deck/" + topCard.img);
+      this.imgElement.setAttribute("src", "assets/cards/" + topCard.img);
       this.imgElement.style.visibility = "visible";
     } else {
       this.imgElement.style.visibility = "hidden";
@@ -139,7 +150,5 @@ function suit(i) {
 }
 
 function swap(array, i, j) {
-  var temp = array[i];
-  array[i] = array[j];
-  array[j] = temp;
+
 }

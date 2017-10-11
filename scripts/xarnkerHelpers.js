@@ -2,52 +2,49 @@
 // Authors: Evan Heaton & Robert Cala
 // created on 10/8/17
 
-function allowPlayerDiscard() {
+function enablePlayerDiscard() {
   // cant use loops here because of some weirdness with "closures" or whatever.
   playerHand.imgElements[0].onclick = function() { playerDiscard(0); }
   playerHand.imgElements[1].onclick = function() { playerDiscard(1); }
   playerHand.imgElements[2].onclick = function() { playerDiscard(2); }
   playerHand.imgElements[3].onclick = function() { playerDiscard(3); }
+
+  playerHandTipElement.classList.add("shown");
 }
-function disallowPlayerDiscard() {
+function disablePlayerDiscard() {
   for (var i=0; i<playerHand.imgElements.length; i++) {
     playerHand.imgElements[i].onclick = nothingBurger;
   }
+  playerHandTipElement.classList.remove("shown");
 }
-function allowDraw() {
+function enablePlayerDraw() {
   deck.imgElement.onclick = function() { drawDeck(); }
   discardPile.imgElement.onclick = function() { drawDiscard(); }
+
+  deckDiscardTipElement.classList.add("shown");
 }
-function disallowDraw() {
+function disablePlayerDraw() {
   deck.imgElement.onclick = nothingBurger;
   discardPile.imgElement.onclick = nothingBurger;
+
+  deckDiscardTipElement.classList.remove("shown");
 }
 function drawDiscard() {
   playerHand.addCard(discardPile.draw());
   discardPile.render();
-  disallowDraw();
-  allowPlayerDiscard();
+  disablePlayerDraw();
+  enablePlayerDiscard();
 }
 function drawDeck() {
   playerHand.addCard(deck.draw());
   discardPile.render();
-  disallowDraw();
-  allowPlayerDiscard();
-}
-function playerDiscard(index) {
-  console.log(index);
-  discardPile.place(playerHand.discard(index));
-  disallowPlayerDiscard();
-
-  // TODO: computer takes its turn
-
-  allowDraw();
-}
-function playerDiscardDelegate(index) {
-  return function() {
-    playerDiscard(index);
-  }
+  disablePlayerDraw();
+  enablePlayerDiscard();
 }
 function nothingBurger() {
   console.log("do nothing");
+}
+
+function randomInt(zeroToThis) {
+  return Math.floor(Math.random() * zeroToThis);
 }

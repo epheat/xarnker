@@ -14,6 +14,7 @@
   <!-- helper scripts -->
   <script src="scripts/xarnkerDeck.js"></script>
   <script src="scripts/xarnkerHelpers.js"></script>
+  <script src="scripts/xarnkerGame.js"></script>
 
   <!-- fonts -->
   <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
@@ -22,14 +23,8 @@
 <body>
   <div id="app">
     <h1>Xarnker</h1>
-    <button onclick="dealNewGame()">New Game</button>
-    <div id="table">
-      <div id="playerHandContainer">
-        <img id="playerCard0" class="card playercard"/>
-        <img id="playerCard1" class="card playercard"/>
-        <img id="playerCard2" class="card playercard"/>
-        <img id="playerCard3" class="card playercard"/>
-      </div>
+    <button onclick="beginSet()">New Game</button>
+    <div id="xarnkerTable">
       <div id="computerHandContainer">
         <img id="computerCard0" class="card"/>
         <img id="computerCard1" class="card"/>
@@ -38,17 +33,31 @@
       </div>
       <div id="deckDiscardContainer">
         <div class="pile">
-          <img id="deck" class="card" src="assets/cardback_small.png"/>
+          <img id="deck" class="card" src="assets/cards/cardBack_blue5.png"/>
         </div>
         <div class="pile">
           <img id="discard" class="card"/>
         </div>
       </div>
-      <div id="deckDiscardTip" class="tip shown">
+      <div id="playerHandContainer">
+        <img id="playerCard0" class="card playercard" img=""/>
+        <img id="playerCard1" class="card playercard"/>
+        <img id="playerCard2" class="card playercard"/>
+        <img id="playerCard3" class="card playercard"/>
+      </div>
+      <div id="roundCounter" class="counter">
+        <p>Discard<br>Round:</p>
+        <h3 id="round">1 / 3</h3>
+      </div>
+      <div id="handCounter" class="counter">
+        <p>Hand<br>Number:</p>
+        <h3 id="hand">1 / 5</h3>
+      </div>
+      <div id="deckDiscardTip" class="tip">
         <h3>Draw a card from the deck or discard pile to add to your hand.</h3>
       </div>
       <div id="playerHandTip" class="tip">
-        <h3>Choose a card to discard from your hand.</h3>
+        <h3>Choose a card to discard.</h3>
       </div>
 
     </div>
