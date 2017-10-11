@@ -30,6 +30,9 @@ function Deck(imgElement) {
       this.swap(picked, divider);
     }
   }
+  this.render = function() {
+    this.imgElement.style.opacity = 1;
+  }
 }
 
 // Hand object constructor
@@ -45,7 +48,7 @@ function Hand(cards, imgElements, hideCards) {
   this.hideCards = hideCards;
   // evaluate how many points this hand is worth
   this.eval = function() {
-
+    return 20;
   }
   // discard a given card from hand
   this.discard = function(i) {
@@ -79,13 +82,13 @@ function Hand(cards, imgElements, hideCards) {
       if (this.cards[i] != undefined) {
         if (this.hideCards == true) {
           // TODO: make this animation fade. Overlay img tags?
-          imgElements[i].setAttribute("src", "assets/cards/cardBack_blue5.png");
+          this.imgElements[i].setAttribute("src", "assets/cards/cardBack_blue5.png");
         } else {
-          imgElements[i].setAttribute("src", "assets/cards/" + this.cards[i].img);
+          this.imgElements[i].setAttribute("src", "assets/cards/" + this.cards[i].img);
         }
-        imgElements[i].style.opacity = 1;
+        this.imgElements[i].style.opacity = 1;
       } else {
-        imgElements[i].style.opacity = 0;
+        this.imgElements[i].style.opacity = 0;
       }
     }
   }
@@ -118,9 +121,9 @@ function DiscardPile(topCard, imgElement) {
     var topCard = this.peek();
     if (topCard != undefined) {
       this.imgElement.setAttribute("src", "assets/cards/" + topCard.img);
-      this.imgElement.style.visibility = "visible";
+      this.imgElement.style.opacity = 1;
     } else {
-      this.imgElement.style.visibility = "hidden";
+      this.imgElement.style.opacity = 0;
     }
   }
 }

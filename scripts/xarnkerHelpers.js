@@ -29,6 +29,19 @@ function disablePlayerDraw() {
 
   deckDiscardTipElement.classList.remove("shown");
 }
+function enableClickAnywhereToContinue() {
+  xarnkerTableElement.onclick = dealNewHand;
+}
+function disableClickAnywhereToContinue() {
+  xarnkerTableElement.onclick = nothingBurger;
+  computerWinElement.classList.remove("shown");
+  playerWinElement.classList.remove("shown");
+  playerScoreElement.classList.remove("shown");
+  computerScoreElement.classList.remove("shown");
+}
+
+
+
 function drawDiscard() {
   playerHand.addCard(discardPile.draw());
   discardPile.render();

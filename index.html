@@ -17,13 +17,17 @@
   <script src="scripts/xarnkerGame.js"></script>
 
   <!-- fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab|Bangers|Bitter:700" rel="stylesheet">
 
 </head>
 <body>
   <div id="app">
-    <h1>Xarnker</h1>
-    <button onclick="beginSet()">New Game</button>
+    <h1 id="title"> --- Xarnker --- </h1>
+    <div class="nameInputContainer">
+      <label>Enter Name:</label>
+      <input id="nameInput"></input>
+    </div>
+    <div class="button" onclick="beginSet()">New Game</div>
     <div id="xarnkerTable">
       <div id="computerHandContainer">
         <img id="computerCard0" class="card"/>
@@ -53,13 +57,52 @@
         <p>Hand<br>Number:</p>
         <h3 id="hand">1 / 5</h3>
       </div>
+
+
+      <div id="playerWin" class="win">
+        <h1>Player Wins the Hand!</h1>
+      </div>
+      <div id="computerWin" class="win">
+        <h1>Computer Wins the Hand!</h1>
+      </div>
+
+      <div id="playerDashboard" class="dashboard">
+        <h3 id="playerName">
+          Player
+        </h3>
+        <div id="playerHandsWon">
+          <span>Hands Won:</span><br>
+          <span class="playerHandIndicator"></span>
+          <span class="playerHandIndicator"></span>
+          <span class="playerHandIndicator"></span>
+        </div>
+      </div>
+      <div id="computerDashboard" class="dashboard">
+        <h3 id="playerName">
+          Computer
+        </h3>
+        <div id="playerHandsWon">
+          <span>Hands Won:</span><br>
+          <span class="computerHandIndicator"></span>
+          <span class="computerHandIndicator"></span>
+          <span class="computerHandIndicator"></span>
+        </div>
+      </div>
+
+      <div id="playerScore" class="score">
+        Player Hand Score: 31
+      </div>
+      <div id="computerScore" class="score">
+        Computer Hand Score: 20
+      </div>
+
+
       <div id="deckDiscardTip" class="tip">
         <h3>Draw a card from the deck or discard pile to add to your hand.</h3>
       </div>
       <div id="playerHandTip" class="tip">
         <h3>Choose a card to discard.</h3>
       </div>
-
     </div>
   </div>
 

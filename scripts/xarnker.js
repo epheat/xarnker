@@ -4,14 +4,24 @@
 
 // global variables
 var deck, discardPile, playerHand, computerHand;
+var xarnkerTableElement = document.getElementById("xarnkerTable");
 var deckDiscardTipElement = document.getElementById("deckDiscardTip");
 var playerHandTipElement = document.getElementById("playerHandTip");
 var roundElement = document.getElementById("round");
 var handElement = document.getElementById("hand");
+var playerWinElement = document.getElementById("playerWin");
+var computerWinElement = document.getElementById("computerWin");
+var playerScoreElement = document.getElementById("playerScore");
+var computerScoreElement = document.getElementById("computerScore");
+
+var playerNameElement = document.getElementById("playerName");
 
 // this is kind of ugly... better way to do this?
 var playerHandImgElements = [document.getElementById("playerCard0"), document.getElementById("playerCard1"), document.getElementById("playerCard2"), document.getElementById("playerCard3")];
 var computerHandImgElements = [document.getElementById("computerCard0"), document.getElementById("computerCard1"), document.getElementById("computerCard2"), document.getElementById("computerCard3")];
+
+var playerHandIndicatorElements = document.getElementsByClassName("playerHandIndicator");
+var computerHandIndicatorElements = document.getElementsByClassName("computerHandIndicator");
 
 var game = new xarnkerGame();
 
@@ -20,9 +30,15 @@ var computerHandsWon = 0;
 var numRounds = 3;
 var round = 1;
 var numHands = 5;
-var hand = 1;
+var hand = 0;
+
+var playerName = "name";
 
 function beginSet() {
+
+  playerName = document.getElementById("nameInput").value;
+
+  game.renderPlayerName();
 
   game.renderRound();
   game.renderHand();
@@ -32,13 +48,16 @@ function beginSet() {
   computerHandsWon = 0;
   dealNewHand();
 
-  console.log("round: " + round);
 }
 
 function dealNewHand() {
 
+  disableClickAnywhereToContinue();
+
   hand++;
   round = 1;
+  game.renderRound();
+  game.renderHand();
 
   deck = new Deck(document.getElementById("deck"));
   deck.shuffle();
@@ -51,6 +70,7 @@ function dealNewHand() {
   playerHand.render();
   computerHand.render();
   discardPile.render();
+  deck.render();
 
   enablePlayerDraw();
 }
@@ -69,10 +89,30 @@ function playerDiscard(index) {
     // if that was the final round, evaluate and compare hands.
     // otherwise, allow the user to discard again
     if (round == numRounds) {
-      evaluateHands();
       setTimeout(function() {
         computerHand.hideCards = false;
         computerHand.render();
+        var playerWon = game.evaluateHands();
+        game.renderPlayerHandScore();
+        game.renderComputerHandScore();
+        if (playerWon == true) {
+          playerHandsWon++;
+          game.renderPlayerHandIndicators();
+          playerWinElement.classList.add("shown");
+          playerScoreElement.classList.add("shown");
+          computerScoreElement.classList.add("shown");
+        } else {
+          computerHandsWon++;
+          game.renderComputerHandIndicators();
+          computerWinElement.classList.add("shown");
+          playerScoreElement.classList.add("shown");
+          computerScoreElement.classList.add("shown");
+        }
+        if (hand == numHands) {
+          endSet();
+        } else {
+          enableClickAnywhereToContinue();
+        }
       }, 500)
     } else {
       round++;
@@ -98,4 +138,10 @@ function computerTurn() {
 // TODO: evaluate and compare hands
 function evaluateHands() {
   console.log("Evaluating hands... (not really)");
+  return true;
+}
+
+// TODO: last hand completed!
+function endSet() {
+  console.log("That's all folks");
 }
