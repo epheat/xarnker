@@ -23,7 +23,8 @@ var computerHandImgElements = [document.getElementById("computerCard0"), documen
 var playerHandIndicatorElements = document.getElementsByClassName("playerHandIndicator");
 var computerHandIndicatorElements = document.getElementsByClassName("computerHandIndicator");
 
-var game = new xarnkerGame();
+var playerHandScore = 0;
+var computerHandScore = 0;
 
 var playerHandsWon = 0;
 var computerHandsWon = 0;
@@ -38,10 +39,10 @@ function beginSet() {
 
   playerName = document.getElementById("nameInput").value;
 
-  game.renderPlayerName();
+  renderPlayerName();
 
-  game.renderRound();
-  game.renderHand();
+  renderRound();
+  renderHand();
 
   hand = 0;
   playerHandsWon = 0;
@@ -56,8 +57,8 @@ function dealNewHand() {
 
   hand++;
   round = 1;
-  game.renderRound();
-  game.renderHand();
+  renderRound();
+  renderHand();
 
   deck = new Deck(document.getElementById("deck"));
   deck.shuffle();
@@ -92,18 +93,18 @@ function playerDiscard(index) {
       setTimeout(function() {
         computerHand.hideCards = false;
         computerHand.render();
-        var playerWon = game.evaluateHands();
-        game.renderPlayerHandScore();
-        game.renderComputerHandScore();
+        var playerWon = evaluateHands();
+        renderPlayerHandScore();
+        renderComputerHandScore();
         if (playerWon == true) {
           playerHandsWon++;
-          game.renderPlayerHandIndicators();
+          renderPlayerHandIndicators();
           playerWinElement.classList.add("shown");
           playerScoreElement.classList.add("shown");
           computerScoreElement.classList.add("shown");
         } else {
           computerHandsWon++;
-          game.renderComputerHandIndicators();
+          renderComputerHandIndicators();
           computerWinElement.classList.add("shown");
           playerScoreElement.classList.add("shown");
           computerScoreElement.classList.add("shown");
@@ -118,7 +119,7 @@ function playerDiscard(index) {
       round++;
       enablePlayerDraw();
       // render the rounds counter
-      game.renderRound();
+      renderRound();
     }
   }, 1000);
 }

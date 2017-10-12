@@ -2,6 +2,9 @@
 // Authors: Evan Heaton & Robert Cala
 // created on 10/8/17
 
+
+// click enablers and disablers:
+
 function enablePlayerDiscard() {
   // cant use loops here because of some weirdness with "closures" or whatever.
   playerHand.imgElements[0].onclick = function() { playerDiscard(0); }
@@ -38,6 +41,42 @@ function disableClickAnywhereToContinue() {
   playerWinElement.classList.remove("shown");
   playerScoreElement.classList.remove("shown");
   computerScoreElement.classList.remove("shown");
+}
+
+// some render functions for score, hand count, discard count, etc.
+renderRound = function() {
+  roundElement.innerHTML = round + " / " + numRounds;
+}
+renderHand = function() {
+  handElement.innerHTML = hand + " / " + numHands;
+}
+renderPlayerName = function() {
+  playerNameElement.innerHTML = playerName;
+}
+renderPlayerHandScore = function() {
+  playerScoreElement.innerHTML = "Score: " + playerHandScore;
+}
+renderComputerHandScore = function() {
+  computerScoreElement.innerHTML = "Score: " + computerHandScore;
+}
+evaluateHands = function() {
+  playerHandScore = playerHand.eval();
+  computerHandScore = computerHand.eval();
+  return (playerHandScore >= computerHandScore);
+}
+renderPlayerHandIndicators = function() {
+  for (var i=0; i<playerHandsWon; i++) {
+    if (i < playerHandIndicatorElements.length) {
+      playerHandIndicatorElements[i].classList.add("filled");
+    }
+  }
+}
+renderComputerHandIndicators = function() {
+  for (var i=0; i<computerHandsWon; i++) {
+    if (i < computerHandIndicatorElements.length) {
+      computerHandIndicatorElements[i].classList.add("filled");
+    }
+  }
 }
 
 

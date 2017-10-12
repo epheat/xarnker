@@ -41,6 +41,7 @@
   margin: auto 0px;
   /*max-width: 600px;*/
   /*height: 400px;*/
+  min-width: 300px;
 
   border-radius: 50px;
   border: 10px groove rgb(79, 72, 52);
@@ -49,8 +50,16 @@
 
   display: grid;
   grid-template-columns: 1fr 80px 80px 1fr;
-  grid-template-rows: repeat(5, 1fr);
+  grid-template-rows: 95px 80px 95px 95px 95px;
   grid-gap: 2px;
+}
+@media only screen and (max-width: 350px) {
+  body {
+    margin: 8px 0px;
+  }
+  #xarnkerTable {
+    border: 8px groove rgb(79, 72, 52);
+  }
 }
 
 #playerHandContainer {
@@ -109,7 +118,7 @@
   bottom: 20px;
 }
 .computercard {
-  float: right;
+  /*float: right;*/
 }
 
 .discard {
@@ -132,6 +141,8 @@
 
 #deckDiscardTip {
   position: relative;
+  margin-left: -15%;
+  margin-right: -15%;
   grid-row: 4 / 5;
   grid-column: 2 / 4;
 }
@@ -218,18 +229,19 @@
 }
 
 .handsWon {
-  font-size: 12px;
+  font-size: 10px;
 }
 .handsWon p {
-  margin: 4px;
+  margin: 2px 0px;
+  min-width: 63px;
 }
 
 .dashboard {
+  display: inline-block;
   text-align: center;
   align-self: center;
   justify-self: center;
-  padding: 5px;
-  max-width: 150px;
+  padding-bottom: 5px;
   background-color: rgba(205, 205, 205, 0.7);
   border-radius: 5px;
   border: 2px solid rgb(255, 255, 255);
@@ -243,10 +255,22 @@
 #playerDashboard {
   grid-row: 3 / 4;
   grid-column: 1 / 2;
+  text-align: center;
 }
 #computerDashboard {
   grid-row: 3 / 4;
   grid-column: 4 / 5;
+  text-align: center;
+}
+.moneyBar {
+  font-family: 'Roboto Slab', serif;
+  color: rgb(221, 226, 165);
+  border-radius: 0px 0px 4px 4px;
+  background-color: rgb(117, 16, 46);
+  width: 60px;
+  margin: 0 auto;
+  padding: 2px 0px;
+  box-shadow: 0px 2px 2px rgb(34, 34, 34);
 }
 .playerHandIndicator {
   display: inline-block;
