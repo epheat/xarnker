@@ -49,28 +49,33 @@ function Hand(cards, imgElements, hideCards) {
   // evaluate how many points this hand is worth
   this.eval = function() {
     this.prune()
+    var cardcopy = shallowCopy(this.cards)
+    cardcopy.sort(function(a,b){
+      return a.value - b.value;
+    })
     var score = 0
-    if (this.cards[0].value == this.cards[1].value && this.cards[0].value == this.cards[2].value) {
+    if (cardcopy[0].value == cardcopy[1].value && cardcopy[0].value == cardcopy[2].value) {
         return 50
       }
-    else if (this.cards[0].suit == this.cards[1].suit && this.cards[0].suit == this.cards[2].suit){
-      for (var i=0; i<this.cards.length-1; i++){
-        score += this.cards[i].value
+    else if (cardcopy[0].suit == cardcopy[1].suit && cardcopy[0].suit == cardcopy[2].suit){
+      for (var i=0; i<cardcopy.length-1; i++){
+        score += cardcopy[i].value
       }
       return score
     }
     else{
       var totval = 0
-      for (var i=0; i<this.cards.length-1; i++){
-        totval += this.cards[i].value;
+      for (var i=0; i<cardcopy.length-1; i++){
+        totval += cardcopy[i].value;
       }
       if (totval == 6){
-        return 40
+        if (cardcopy[0].value != cardcopy[1].value && cardcopy[0].value != cardcopy[2].value)
+          return 40
       }
       else if (totval == 8){
-        for (var i=0; i<this.cards.length-1; i++){
-          for (var j=1; j<this.cards.length-1; j++)
-            if (this.cards[i].value == 1 && this.cards[i].value != this.cards[j] ){
+        for (var i=0; i<cardcopy.length-1; i++){
+          for (var j=1; j<cardcopy.length-1; j++)
+            if (cardcopy[i].value == 1 && cardcopy[i].value != cardcopy[j] ){
               return 31
             }
           }
@@ -78,13 +83,13 @@ function Hand(cards, imgElements, hideCards) {
       }
       else{
         var highcard = 0
-        for (var i=0; i<this.cards.length-1; i++){
-          for (var j=1; j<this.cards.length-1; j++){
-            if (this.cards[i].value >= this.cards[j].value){
-              highcard = this.cards[i].value
+        for (var i=0; i<cardcopy.length-1; i++){
+          for (var j=1; j<cardcopy.length-1; j++){
+            if (cardcopy[i].value >= cardcopy[j].value){
+              highcard = cardcopy[i].value
             }
             else {
-              highcard = this.cards[j].value
+              highcard = cardcopy[j].value
             }
           }
         }

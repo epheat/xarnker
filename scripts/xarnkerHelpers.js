@@ -100,3 +100,11 @@ function nothingBurger() {
 function randomInt(zeroToThis) {
   return Math.floor(Math.random() * zeroToThis);
 }
+
+function shallowCopy(cards){
+  var copy = []
+  for (var i=0; i<this.cards.length-1; i++){
+    copy.push(this.cards[i]);
+  }
+  return copy;
+}
