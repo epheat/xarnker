@@ -22,7 +22,7 @@
 </head>
 <body>
   <div id="app">
-    <h1 id="title"> --- Xarnker --- </h1>
+    <h1 id="title"> -- Xarnker -- </h1>
     <div class="nameInputContainer">
       <label>Enter Name:</label>
       <input id="nameInput"></input>
@@ -30,10 +30,10 @@
     <div class="button" onclick="beginSet()">New Game</div>
     <div id="xarnkerTable">
       <div id="computerHandContainer">
-        <img id="computerCard0" class="card"/>
-        <img id="computerCard1" class="card"/>
-        <img id="computerCard2" class="card"/>
-        <img id="computerCard3" class="card"/>
+        <img id="computerCard0" class="card computercard"/>
+        <img id="computerCard1" class="card computercard"/>
+        <img id="computerCard2" class="card computercard"/>
+        <img id="computerCard3" class="card computercard"/>
       </div>
       <div id="deckDiscardContainer">
         <div class="pile">
@@ -70,8 +70,8 @@
         <h3 id="playerName">
           Player
         </h3>
-        <div id="playerHandsWon">
-          <span>Hands Won:</span><br>
+        <div id="playerHandsWon" class="handsWon">
+          <p>Hands Won:</p>
           <span class="playerHandIndicator"></span>
           <span class="playerHandIndicator"></span>
           <span class="playerHandIndicator"></span>
@@ -79,10 +79,10 @@
       </div>
       <div id="computerDashboard" class="dashboard">
         <h3 id="playerName">
-          Computer
+           CPU
         </h3>
-        <div id="playerHandsWon">
-          <span>Hands Won:</span><br>
+        <div id="computerHandsWon" class="handsWon">
+          <p>Hands Won:</p>
           <span class="computerHandIndicator"></span>
           <span class="computerHandIndicator"></span>
           <span class="computerHandIndicator"></span>

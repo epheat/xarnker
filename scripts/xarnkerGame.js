@@ -19,10 +19,10 @@ function xarnkerGame() {
   }
 
   this.renderPlayerHandScore = function() {
-    playerScoreElement.innerHTML = "Player Hand Score: " + this.playerHandScore;
+    playerScoreElement.innerHTML = "Score: " + this.playerHandScore;
   }
   this.renderComputerHandScore = function() {
-    computerScoreElement.innerHTML = "Computer Hand Score: " + this.computerHandScore;
+    computerScoreElement.innerHTML = "Score: " + this.computerHandScore;
   }
 
   this.evaluateHands = function() {

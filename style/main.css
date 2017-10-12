@@ -1,5 +1,7 @@
 #app {
-  min-width: 410px;
+  margin: 0 auto;
+  min-width: 320px;
+  max-width: 700px;
 }
 #title {
   margin: 10px;
@@ -37,7 +39,7 @@
 
 #xarnkerTable {
   margin: auto 0px;
-  /*min-width: 400px;*/
+  /*max-width: 600px;*/
   /*height: 400px;*/
 
   border-radius: 50px;
@@ -46,7 +48,7 @@
   background: radial-gradient(rgb(33, 161, 31), rgb(14, 106, 23));
 
   display: grid;
-  grid-template-columns: 1fr 90px 90px 1fr;
+  grid-template-columns: 1fr 80px 80px 1fr;
   grid-template-rows: repeat(5, 1fr);
   grid-gap: 2px;
 }
@@ -54,7 +56,7 @@
 #playerHandContainer {
   grid-row: 5 / 6;
   grid-column: 1 / 5;
-  margin-left: 50px;
+  margin-left: 5px;
   min-width: 288px;
 }
 
@@ -62,7 +64,7 @@
   grid-row: 1 / 2;
   grid-column: 1 / 5;
   min-width: 288px;
-  margin-right: 50px;
+  margin-right: 40px;
   text-align: right;
 }
 
@@ -106,6 +108,9 @@
 .playercard:hover {
   bottom: 20px;
 }
+.computercard {
+  float: right;
+}
 
 .discard {
   outline: 3px solid rgba(255, 0, 0, 0.8);
@@ -115,6 +120,7 @@
   opacity: 0;
   text-align: center;
   font-family: 'Roboto Slab', serif;
+  font-size: 16px;
   color: white;
   line-height: 1;
   text-shadow: 0px 2px 2px rgb(34, 34, 34);
@@ -142,7 +148,7 @@
   grid-column: 1 / 5;
 }
 #playerHandTip h3 {
-  margin-left: 50px;
+  margin-left: 6px;
   margin-bottom: 24px;
   width: 292px;
   position: absolute;
@@ -157,12 +163,15 @@
   text-shadow: 0px 2px 2px rgb(34, 34, 34);
   width: 76px;
 }
+.counter p {
+  margin-bottom: 5px;
+}
 
 #roundCounter {
   position: relative;
   grid-row: 2 / 3;
   grid-column: 2 / 3;
-  margin-left: 12px;
+  /*margin-left: 12px;*/
 }
 #roundCounter h3 {
   margin-top: 0px;
@@ -179,6 +188,7 @@
 
 .win {
   font-family: 'Bangers', cursive;
+  font-size: 12px;
   text-align: center;
   color: red;
   text-shadow: 0px 2px 2px rgb(34, 34, 34);
@@ -205,6 +215,13 @@
 #computerWin {
   grid-row: 4 / 5;
   grid-column: 2 / 4;
+}
+
+.handsWon {
+  font-size: 12px;
+}
+.handsWon p {
+  margin: 4px;
 }
 
 .dashboard {
