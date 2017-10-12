@@ -63,40 +63,28 @@ function Hand(cards, imgElements, hideCards) {
       }
       return score
     }
+    else if (cardcopy[0].value == 1 && cardcopy[1].value == 2 && cardcopy[2].value == 3){
+      return 40
+    }
+    else if (cardcopy[0].value == 1 && cardcopy[1].value == 3 && cardcopy[2].value == 4 ){
+      return 31
+    }
     else{
-      var totval = 0
+      var highcard = 0
       for (var i=0; i<cardcopy.length-1; i++){
-        totval += cardcopy[i].value;
-      }
-      if (totval == 6){
-        if (cardcopy[0].value != cardcopy[1].value && cardcopy[0].value != cardcopy[2].value)
-          return 40
-      }
-      else if (totval == 8){
-        for (var i=0; i<cardcopy.length-1; i++){
-          for (var j=1; j<cardcopy.length-1; j++)
-            if (cardcopy[i].value == 1 && cardcopy[i].value != cardcopy[j] ){
-              return 31
-            }
+        for (var j=1; j<cardcopy.length-1; j++){
+          if (cardcopy[i].value >= cardcopy[j].value){
+            highcard = cardcopy[i].value
+          }
+          else {
+            highcard = cardcopy[j].value
           }
         }
       }
-      else{
-        var highcard = 0
-        for (var i=0; i<cardcopy.length-1; i++){
-          for (var j=1; j<cardcopy.length-1; j++){
-            if (cardcopy[i].value >= cardcopy[j].value){
-              highcard = cardcopy[i].value
-            }
-            else {
-              highcard = cardcopy[j].value
-            }
-          }
-        }
-        return highcard
-      }
+      return highcard
     }
   }
+
   // discard a given card from hand
   this.discard = function(i) {
     var discarded = this.cards[i];
