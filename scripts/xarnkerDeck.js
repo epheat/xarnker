@@ -48,7 +48,49 @@ function Hand(cards, imgElements, hideCards) {
   this.hideCards = hideCards;
   // evaluate how many points this hand is worth
   this.eval = function() {
-    return 20;
+    this.prune()
+    var score = 0
+    if (this.cards[0].value == this.cards[1].value && this.cards[0].value == this.cards[2].value) {
+        return 50
+      }
+    else if (this.cards[0].suit == this.cards[1].suit && this.cards[0].suit == this.cards[2].suit){
+      for (var i=0; i<this.cards.length-1; i++){
+        score += this.cards[i].value
+      }
+      return score
+    }
+    else{
+      var totval = 0
+      for (var i=0; i<this.cards.length-1; i++){
+        totval += this.cards[i].value;
+      }
+      if (totval == 6){
+        return 40
+      }
+      else if (totval == 8){
+        for (var i=0; i<this.cards.length-1; i++){
+          for (var j=1; j<this.cards.length-1; j++)
+            if (this.cards[i].value == 1 && this.cards[i].value != this.cards[j] ){
+              return 31
+            }
+          }
+        }
+      }
+      else{
+        var highcard = 0
+        for (var i=0; i<this.cards.length-1; i++){
+          for (var j=1; j<this.cards.length-1; j++){
+            if (this.cards[i].value >= this.cards[j].value){
+              highcard = this.cards[i].value
+            }
+            else {
+              highcard = this.cards[j].value
+            }
+          }
+        }
+        return highcard
+      }
+    }
   }
   // discard a given card from hand
   this.discard = function(i) {
