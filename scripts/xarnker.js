@@ -146,10 +146,47 @@ function evaluateHands() {
   return (playerHandScore >= computerHandScore);
 }
 
-//
+// TODO: decide whether to draw from the deck or discard
 function computerDraw() {
+  var cardCopy = shallowCopy(computerHand.cards);
+  prune(cardCopy);
+  cardCopy.sort(function(a,b){
+    return a.value - b.value;
+  });
+  // if all 3 cards are the same suit, attempt to get a better card of the same suit
+  if (cardCopy[0].suit == cardCopy[1].suit && cardCopy[0].suit == cardCopy[2].suit) {
+    // if the discard pile has a card with that suit and better value, draw that
+    // otherwise, draw from the deck
+  }
+  // if 2 cards are the same suit, attempt to draw a 3rd card of that same suit.
+  else if (cardCopy[0].suit == cardCopy[1].suit || cardCopy[0].suit == cardCopy[2].suit || cardCopy[1].suit == cardCopy[2].suit) {
+
+  }
+  // if 2 cards are the same value, attempt to draw a 3rd card of that same value.
+  else if (cardCopy[0].value == cardCopy[1].value || cardCopy[0].value == cardCopy[2].value || cardCopy[1].value == cardCopy[2].value) {
+
+  }
+  // if 2 cards are in the set (ace,2,3) then attempt to draw the third card of the set.
+  else if () {
+
+  }
+  // if 2 cards are in the set (3,ace,4) then attempt to draw the third card of the set.
+  else if () {
+
+  }
+  //
+  else {
+    // if the discard card is 8, 9, or 10 and matches one of our suits choose it,
+    // discarding the lowest valued card of the other 2 cards.
+
+    // otherwise draw a new card, if it matches one of our suits, discard one of
+    // the other 2 cards with the lowest value. If if doesn't match, simply
+    // discard the lowest value card of the 4.
+  }
+
   computerHand.addCard(deck.draw());
 }
+// TODO: decide which card to discard
 function computerDiscard() {
   discardPile.place(computerHand.discard(randomInt(4)));
 }

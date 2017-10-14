@@ -59,7 +59,7 @@ function Hand(cards, imgElements, hideCards) {
     if (cardCopy[0].value == cardCopy[1].value && cardCopy[0].value == cardCopy[2].value) {
         return 50;
     }
-    // flush... shouldn't this go at the end? We would want A, 2, 3 of the same suit to return 40
+    // flush... should this go at the end? We would want A, 2, 3 of the same suit to return 40
     /*
     else if (cardCopy[0].suit == cardCopy[1].suit && cardCopy[0].suit == cardCopy[2].suit){
       for (var i=0; i<cardCopy.length-1; i++){
