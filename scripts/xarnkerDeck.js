@@ -48,40 +48,58 @@ function Hand(cards, imgElements, hideCards) {
   this.hideCards = hideCards;
   // evaluate how many points this hand is worth
   this.eval = function() {
-    this.prune()
-    var cardcopy = shallowCopy(this.cards)
-    cardcopy.sort(function(a,b){
+    // get a pruned, sorted copy of the player's current hand to evaluate
+    var cardCopy = shallowCopy(this.cards);
+    prune(cardCopy);
+    cardCopy.sort(function(a,b){
       return a.value - b.value;
-    })
-    var score = 0
-    if (cardcopy[0].value == cardcopy[1].value && cardcopy[0].value == cardcopy[2].value) {
-        return 50
-      }
-    else if (cardcopy[0].suit == cardcopy[1].suit && cardcopy[0].suit == cardcopy[2].suit){
-      for (var i=0; i<cardcopy.length-1; i++){
-        score += cardcopy[i].value
+    });
+    var score = 0;
+    // 3 of a kind
+    if (cardCopy[0].value == cardCopy[1].value && cardCopy[0].value == cardCopy[2].value) {
+        return 50;
+    }
+    // flush... shouldn't this go at the end? We would want A, 2, 3 of the same suit to return 40
+    /*
+    else if (cardCopy[0].suit == cardCopy[1].suit && cardCopy[0].suit == cardCopy[2].suit){
+      for (var i=0; i<cardCopy.length-1; i++){
+        score += cardCopy[i].value
       }
       return score
+    }*/
+    // Ace, two, three
+    else if (cardCopy[0].value == 1 && cardCopy[1].value == 2 && cardCopy[2].value == 3){
+      return 40;
     }
-    else if (cardcopy[0].value == 1 && cardcopy[1].value == 2 && cardcopy[2].value == 3){
-      return 40
+    // 3.14 (but it will be sorted to 1, 3, 4)
+    else if (cardCopy[0].value == 1 && cardCopy[1].value == 3 && cardCopy[2].value == 4 ){
+      return 31;
     }
-    else if (cardcopy[0].value == 1 && cardcopy[1].value == 3 && cardcopy[2].value == 4 ){
-      return 31
-    }
+    // highest score from suit summations
     else{
+
+      var scores = { clubs: 0, spades: 0, hearts: 0, diamonds: 0 };
+      for (var c=0; c<cardCopy.length; c++) { // loop through cards and add values to that suit
+        scores[cardCopy[c].suit] += cardCopy[c].value;
+      }
+      return Math.max(scores.clubs, scores.spades, scores.hearts, scores.diamonds);
+
+
+      /*
       var highcard = 0
-      for (var i=0; i<cardcopy.length-1; i++){
-        for (var j=1; j<cardcopy.length-1; j++){
-          if (cardcopy[i].value >= cardcopy[j].value){
-            highcard = cardcopy[i].value
+
+      for (var i=0; i<cardCopy.length-1; i++){
+        for (var j=1; j<cardCopy.length-1; j++){
+          if (cardCopy[i].value >= cardCopy[j].value){
+            highcard = cardCopy[i].value
           }
           else {
-            highcard = cardcopy[j].value
+            highcard = cardCopy[j].value
           }
         }
       }
       return highcard
+      */
     }
   }
 
@@ -102,14 +120,6 @@ function Hand(cards, imgElements, hideCards) {
       }
     }
     return undefined;
-  }
-  // remove undefined cards from the array
-  this.prune = function() {
-    for (var i=0; i<this.cards.length; i++) {
-      if (this.cards[i] == undefined) {
-        this.cards.splice(i, 1);
-      }
-    }
   }
   // render the cards on-screen
   this.render = function() {

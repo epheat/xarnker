@@ -128,21 +128,37 @@ function playerDiscard(index) {
 function computerTurn() {
   // after 0.5s, decide to draw from the deck or discard
   setTimeout(function() {
-    computerHand.addCard(deck.draw());
+    computerDraw();
     // after another 0.5s, decide which card to discard
     setTimeout(function() {
-      discardPile.place(computerHand.discard(randomInt(4)));
+      computerDiscard();
     }, 500);
   }, 500);
 }
 
 // TODO: evaluate and compare hands
 function evaluateHands() {
-  console.log("Evaluating hands... (not really)");
-  return true;
+  console.log("Evaluating hands...");
+
+  playerHandScore = playerHand.eval();
+  computerHandScore = computerHand.eval();
+
+  return (playerHandScore >= computerHandScore);
+}
+
+//
+function computerDraw() {
+  computerHand.addCard(deck.draw());
+}
+function computerDiscard() {
+  discardPile.place(computerHand.discard(randomInt(4)));
 }
 
 // TODO: last hand completed!
 function endSet() {
   console.log("That's all folks");
+}
+
+function debug() {
+  console.log(playerHand.eval());
 }

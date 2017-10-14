@@ -101,10 +101,20 @@ function randomInt(zeroToThis) {
   return Math.floor(Math.random() * zeroToThis);
 }
 
-function shallowCopy(cards){
-  var copy = []
-  for (var i=0; i<this.cards.length-1; i++){
-    copy.push(this.cards[i]);
+function shallowCopy(cards) {
+  var copy = [];
+  for (var i=0; i<cards.length; i++){
+    copy.push(cards[i]);
   }
   return copy;
+}
+
+// remove undefined cards from the array
+function prune(cards) {
+  for (var i=0; i<cards.length; i++) {
+    if (cards[i] == undefined) {
+      cards.splice(i, 1);
+      i--;
+    }
+  }
 }
