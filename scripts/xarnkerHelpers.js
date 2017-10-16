@@ -12,7 +12,7 @@ function enablePlayerDiscard() {
   playerHand.imgElements[2].onclick = function() { playerDiscard(2); }
   playerHand.imgElements[3].onclick = function() { playerDiscard(3); }
 
-  playerHandTipElement.classList.add("shown");
+  renderPlayerHandTip("<h3>Choose a card to discard.</h3>");
 }
 function disablePlayerDiscard() {
   for (var i=0; i<playerHand.imgElements.length; i++) {
@@ -24,7 +24,7 @@ function enablePlayerDraw() {
   deck.imgElement.onclick = function() { drawDeck(); }
   discardPile.imgElement.onclick = function() { drawDiscard(); }
 
-  deckDiscardTipElement.classList.add("shown");
+  renderDiscardTip("<h3>Draw a card from the deck or discard pile to add to your hand.</h3>");
 }
 function disablePlayerDraw() {
   deck.imgElement.onclick = nothingBurger;
@@ -62,21 +62,33 @@ renderComputerHandScore = function() {
 evaluateHands = function() {
   playerHandScore = playerHand.eval();
   computerHandScore = computerHand.eval();
-  return (playerHandScore >= computerHandScore);
+  return playerHandScore >= computerHandScore;
 }
 renderPlayerHandIndicators = function() {
-  for (var i=0; i<playerHandsWon; i++) {
-    if (i < playerHandIndicatorElements.length) {
+  for (var i=0; i<3; i++) {
+    if (i < playerHandsWon) {
       playerHandIndicatorElements[i].classList.add("filled");
+    } else {
+      playerHandIndicatorElements[i].classList.remove("filled");
     }
   }
 }
 renderComputerHandIndicators = function() {
-  for (var i=0; i<computerHandsWon; i++) {
-    if (i < computerHandIndicatorElements.length) {
+  for (var i=0; i<3; i++) {
+    if (i < computerHandsWon) {
       computerHandIndicatorElements[i].classList.add("filled");
+    } else {
+      computerHandIndicatorElements[i].classList.remove("filled");
     }
   }
+}
+renderDiscardTip = function(tip) {
+  deckDiscardTipElement.innerHTML = tip;
+  deckDiscardTipElement.classList.add("shown");
+}
+renderPlayerHandTip = function(tip) {
+  playerHandTipElement.innerHTML = tip;
+  playerHandTipElement.classList.add("shown");
 }
 
 
