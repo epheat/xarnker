@@ -106,7 +106,7 @@ function drawDeck() {
   enablePlayerDiscard();
 }
 function nothingBurger() {
-  console.log("do nothing");
+  // console.log("do nothing");
 }
 
 function randomInt(zeroToThis) {

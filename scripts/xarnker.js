@@ -69,7 +69,7 @@ function dealNewHand() {
   deck.shuffle();
 
   playerHand = new Hand([deck.draw(), deck.draw(), deck.draw()], playerHandImgElements, false);
-  computerHand = new Hand([deck.draw(), deck.draw(), deck.draw()], computerHandImgElements, true);
+  computerHand = new Hand([deck.draw(), deck.draw(), deck.draw()], computerHandImgElements, false);
 
   discardPile = new DiscardPile(deck.draw(), document.getElementById("discard"));
 
@@ -134,14 +134,10 @@ function computerTurn() {
   // after 0.5s, decide to draw from the deck or discard
   setTimeout(function() {
     computerDraw();
-    // after another 0.5s, decide which card to discard
-    setTimeout(function() {
-      computerDiscard();
-    }, 500);
   }, 500);
 }
 
-// TODO: evaluate and compare hands
+// evaluate and compare hands
 function evaluateHands() {
   console.log("Evaluating hands...");
 
@@ -151,7 +147,7 @@ function evaluateHands() {
   return (playerHandScore >= computerHandScore);
 }
 
-// TODO: decide whether to draw from the deck or discard
+// decide whether to draw from the deck or discard
 function computerDraw() {
   var cardCopy = shallowCopy(computerHand.cards);
   prune(cardCopy);
@@ -161,60 +157,212 @@ function computerDraw() {
   var tempsuit = discardPile.peek().suit;
   var tempval = discardPile.peek().value;
   var cardflag = false;
+
+  // if the computer already has a based hand, then just draw from the discard and immediately discard it
+  if (computerHand.eval() > 30) {
+    console.log("based hand");
+    var cardDrawn = discardPile.draw();
+    computerHand.addCard(cardDrawn);
+    computerDiscard(computerHand.cards.indexOf(cardDrawn));
+    return;
+  }
+
   // if all 3 cards are the same suit, attempt to get a better card of the same suit
   if (cardCopy[0].suit == cardCopy[1].suit && cardCopy[0].suit == cardCopy[2].suit) {
+    console.log("3 of same suit case");
     // if the discard pile has a card with that suit and better value, draw that
     // otherwise, draw from the deck
 
     if (tempsuit == cardCopy[0].suit && tempval > cardCopy[0].value){
       computerHand.addCard(discardPile.draw())
+      computerDiscard(computerHand.cards.indexOf(cardCopy[0])); // discard the card with the lowest value
 
     }
     else{
-      computerHand.addCard(deck.draw());
+      var cardDrawn = deck.draw();
+      computerHand.addCard(cardDrawn);
+      // if the card is the same suit, discard the lowest value from that suit
+      if (cardDrawn.suit == cardCopy[0].suit) {
+        computerDiscard(computerHand.cards.indexOf(cardCopy[0]));
+        return;
+      }
+      // otherwise, discard that card of a different suit
+      else {
+        computerDiscard(computerHand.cards.indexOf(cardDrawn));
+        return;
+      }
     }
   }
   // if 2 cards are the same suit, attempt to draw a 3rd card of that same suit.
   else if (cardCopy[0].suit == cardCopy[1].suit || cardCopy[0].suit == cardCopy[2].suit || cardCopy[1].suit == cardCopy[2].suit) {
-    for (var i=0; i<cardCopy.length; i++){
-      if (tempsuit == cardCopy[i].suit){ // check if discard pile card matches suit
-        cardflag = true;
+    console.log("2 of same suit case");
+    var theDoubleSuit;
+    if (cardCopy[0].suit == cardCopy[1].suit || cardCopy[0].suit == cardCopy[2].suit ) {
+      theDoubleSuit = cardCopy[0].suit;
+    } else if (cardCopy[1].suit == cardCopy[2].suit) {
+      theDoubleSuit = cardCopy[1].suit;
+    }
+    // if the discard pile matches the double
+    if (tempsuit == theDoubleSuit){
+      // draw from discard
+      computerHand.addCard(discardPile.draw());
+      // discard the card that is not the same suit
+      for (var i=0; i<computerHand.cards.length; i++) {
+        if (computerHand.cards[i].suit != theDoubleSuit) {
+          computerDiscard(i);
+          return;
+        }
       }
     }
-    if (cardflag == true){
-      computerHand.addCard(discardPile.draw());
-      //discard card that is not same suit
-    }
-    else{
-      computerHand.addCard(deck.draw());
-      //discard card that is not the same suit
+    else {
+      var cardDrawn = deck.draw();
+      computerHand.addCard(cardDrawn);
+      // if the card drawn matches the double, discard the card of a different suit
+      if (cardDrawn.suit == cardCopy[0].suit && cardDrawn.suit == cardCopy[1].suit || cardDrawn.suit == cardCopy[0].suit && cardDrawn.suit == cardCopy[2].suit || cardDrawn.suit == cardCopy[1].suit && cardDrawn.suit == cardCopy[2].suit ) {
+        for (var i=0; i<computerHand.cards.length; i++) {
+          if (computerHand.cards[i].suit != cardDrawn.suit) {
+            computerDiscard(i);
+            return;
+          }
+        }
+      }
+      // otherwise, drop the card with the lowest value from non desired suits
+      else {
+        //TODO
+        computerDiscard(computerHand.cards.indexOf(cardDrawn));
+        return;
+      }
     }
 
   }
   // if 2 cards are the same value, attempt to draw a 3rd card of that same value.
   else if (cardCopy[0].value == cardCopy[1].value || cardCopy[0].value == cardCopy[2].value || cardCopy[1].value == cardCopy[2].value) {
-    for (var i=0; i<cardCopy.length; i++){
-      if (tempvalue == cardCopy[i].value){ // check if discard pile card matches value
-        cardflag = true;
-      }
+    console.log("2 of same value case");
+    var theDoubleValue;
+    if (cardCopy[0].value == cardCopy[1].value || cardCopy[0].value == cardCopy[2].value ) {
+      theDoubleValue = cardCopy[0].value;
+    } else if (cardCopy[1].value == cardCopy[2].value) {
+      theDoubleValue = cardCopy[1].value;
     }
-    if (cardflag == true){
+
+    // if the discard pile matches that value, draw it (obviously)
+    if (tempval == theDoubleValue) {
       computerHand.addCard(discardPile.draw());
-      //discard card with different value
-    }
-    else{
-      computerHand.addCard(deck.draw());
-      //discard card with different value
+      for (var i=0; i<computerHand.cards.length; i++) {
+        if (computerHand.cards[i].value != theDoubleValue) {
+          computerDiscard(i);
+          return;
+        }
+      }
+      computerDiscard(0); // catch 4 of a kind
+      return;
+    } else {
+      var cardDrawn = deck.draw();
+      computerHand.addCard(cardDrawn);
+      if (cardDrawn.value == theDoubleValue) {
+        for (var i=0; i<computerHand.cards.length; i++) {
+          if (computerHand.cards[i].value != theDoubleValue) {
+            computerDiscard(i);
+            return;
+          }
+        }
+      } else {
+        // TODO
+        computerDiscard(computerHand.cards.indexOf(cardDrawn));
+        return;
+      }
     }
   }
   // if 2 cards are in the set (ace,2,3) then attempt to draw the third card of the set.
-  else if () {
-  else if (false) {
+  else if (hasA(computerHand.cards, 1) && hasA(computerHand.cards, 2) ||
+          hasA(computerHand.cards, 2) && hasA(computerHand.cards, 3) ||
+          hasA(computerHand.cards, 1) && hasA(computerHand.cards, 3)) {
+
+    console.log("looking for A23");
+
+    var needs;
+    if (hasA(computerHand.cards, 1) && hasA(computerHand.cards, 2)) {
+      needs = 3;
+    } else if (hasA(computerHand.cards, 1) && hasA(computerHand.cards, 3)) {
+      needs = 2;
+    } else if (hasA(computerHand.cards, 2) && hasA(computerHand.cards, 3)) {
+      needs = 1;
+    }
+
+    if (tempval == needs) {
+      computerHand.addCard(discardPile.draw());
+      for (var i=0; i<computerHand.cards.length; i++) {
+        if (computerHand.cards[i].value != 1 && computerHand.cards[i].value != 2 && computerHand.cards[i].value != 3) {
+          computerDiscard(i);
+          return;
+        }
+      }
+      computerDiscard(3); // idk
+    } else {
+      var cardDrawn = deck.draw();
+      computerHand.addCard(cardDrawn);
+      if (cardDrawn.value == needs) {
+        for (var i=0; i<computerHand.cards.length; i++) {
+          if (computerHand.cards[i].value != 1 && computerHand.cards[i].value != 2 && computerHand.cards[i].value != 3) {
+            computerDiscard(i);
+            return;
+          }
+        }
+        computerDiscard(3); // ye
+        return;
+      } else {
+        computerDiscard(computerHand.cards.indexOf(cardDrawn));
+        return;
+      }
+
+    }
+
+
+
+
   }
   // if 2 cards are in the set (3,ace,4) then attempt to draw the third card of the set.
-  else if () {
-  else if (false) {
+  else if (hasA(computerHand.cards, 1) && hasA(computerHand.cards, 3) ||
+          hasA(computerHand.cards, 1) && hasA(computerHand.cards, 4) ||
+          hasA(computerHand.cards, 3) && hasA(computerHand.cards, 4)) {
 
+    console.log("going for 3A4");
+    var needs;
+    if (hasA(computerHand.cards, 1) && hasA(computerHand.cards, 3)) {
+      needs = 4;
+    } else if (hasA(computerHand.cards, 1) && hasA(computerHand.cards, 4)) {
+      needs = 3;
+    } else if (hasA(computerHand.cards, 3) && hasA(computerHand.cards, 4)) {
+      needs = 1;
+    }
+
+    if (tempval == needs) {
+      computerHand.addCard(discardPile.draw());
+      for (var i=0; i<computerHand.cards.length; i++) {
+        if (computerHand.cards[i].value != 1 && computerHand.cards[i].value != 3 && computerHand.cards[i].value != 4) {
+          computerDiscard(i);
+          return;
+        }
+      }
+      computerDiscard(3); // idk
+    } else {
+      var cardDrawn = deck.draw();
+      computerHand.addCard(cardDrawn);
+      if (cardDrawn.value == needs) {
+        for (var i=0; i<computerHand.cards.length; i++) {
+          if (computerHand.cards[i].value != 1 && computerHand.cards[i].value != 3 && computerHand.cards[i].value != 4) {
+            computerDiscard(i);
+            return;
+          }
+        }
+        computerDiscard(3); // ye
+        return;
+      } else {
+        computerDiscard(computerHand.cards.indexOf(cardDrawn));
+        return;
+      }
+
+    }
   }
   // if the discard card is 8, 9, or 10 and matches one of our suits choose it,
   // discarding the lowest valued card of the other 2 cards
@@ -222,50 +370,70 @@ function computerDraw() {
     if (tempval == 8 || tempval == 9 || tempval == 10){
       for (var i=0; i < cardCopy.length; i++){
         if (tempsuit == cardCopy[i].suit){
-          cardflag = true;
+          computerHand.addCard(discardPile.draw());
+
+          // TODO discard the lowest from computerHand without tempsuit
+          var lowest = 11;
+          var lowestIndex = 0;
+          for (var i=0; i<computerHand.cards.length; i++) {
+            if (computerHand.cards[i].suit != tempsuit) {
+              if (computerHand.cards[i].value < lowest) {
+                lowest = computerHand.cards[i].value;
+                lowestIndex = i;
+              }
+            }
+          }
+          computerDiscard(lowestIndex);
+          return;
         }
-      }
-      if (cardflag == true){
-        computerHand.addcard(discardPile.draw());
-        //computerDiscard(computerHand[0]);
       }
     }
     // otherwise draw a new card, if it matches one of our suits, discard one of
     // the other 2 cards with the lowest value. If if doesn't match, simply
     // discard the lowest value card of the 4.
     else{
-      computerHand.addCard(deck.draw());
-      for (var i=0; i<computerHand.length; i++){
-        if (computerHand[3].suit == computerHand[i].suit){
-          cardflag = true;
+      var cardDrawn = deck.draw();
+      computerHand.addCard(cardDrawn);
+      for (var i=0; i<computerHand.cards.length; i++){
+        if (cardDrawn.suit == computerHand.cards[i].suit){
+          var lowest = 11;
+          var lowestIndex = 0;
+          // TODO discard the lowest from computerHand without cardDrawn.suit
+          for (var i=0; i<computerHand.cards.length; i++) {
+            if (computerHand.cards[i].suit != cardDrawn.suit) {
+              if (computerHand.cards[i].value < lowest) {
+                lowest = computerHand.cards[i].value;
+                lowestIndex = i;
+              }
+            }
+          }
+          computerDiscard(lowestIndex);
+          return;
         }
       }
-      if (cardflag == true){
-
-
+      // now we can assume that we have a badugi
+      if (cardDrawn.value > cardCopy[0].value){
+        computerDiscard(computerHand.cards.indexOf(cardCopy[0]));
       }
-
       else{
-        if (computerHand[3].value > computerHand[0].value){
-          computerDiscard(computerHand[0]);
-        }
-        else{
-          computerDiscard(computerHand[3]);
-        }
+        computerDiscard(computerHand.cards.indexOf(cardCopy[3]));
       }
     }
 
 
   }
 
-  //computerHand.addCard(deck.draw());
+  // computerHand.addCard(deck.draw());
 }
-// TODO: decide which card to discard
-function computerDiscard() {
-  discardPile.place(computerHand.discard(randomInt(4)));
+// discard the card at index after 500ms
+function computerDiscard(index) {
+  setTimeout(function() {
+    console.log("discarding card at index" + index);
+    discardPile.place(computerHand.discard(index));
+  }, 500)
 }
 
-// TODO: last hand completed!
+// last hand completed!
 function endSet() {
   console.log("That's all folks");
   if (playerHandsWon > computerHandsWon) {
@@ -285,4 +453,16 @@ function endSet() {
 
 function debug() {
   console.log(playerHand.eval());
+}
+
+function hasA(cards, value) {
+  for (var i=0; i<cards.length; i++) {
+    if (cards[i] == undefined) {
+      continue;
+    }
+    if (cards[i].value == value) {
+      return true;
+    }
+  }
+  return false;
 }

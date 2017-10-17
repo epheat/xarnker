@@ -130,7 +130,9 @@ function DiscardPile(topCard, imgElement) {
   // pop and return the top card from a pile.
   this.draw = function() {
     // note: returns 'undefined' with an empty array
-    return this.cards.pop();
+    var card = this.cards.pop();
+    this.render();
+    return card;
   }
   // place a new card on top of a pile.
   this.place = function(card) {
