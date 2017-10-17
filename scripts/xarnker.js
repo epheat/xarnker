@@ -153,38 +153,106 @@ function computerDraw() {
   cardCopy.sort(function(a,b){
     return a.value - b.value;
   });
+  var tempsuit = discardPile.peek().suit;
+  var tempval = discardPile.peek().value;
+  var cardflag = false;
   // if all 3 cards are the same suit, attempt to get a better card of the same suit
   if (cardCopy[0].suit == cardCopy[1].suit && cardCopy[0].suit == cardCopy[2].suit) {
     // if the discard pile has a card with that suit and better value, draw that
     // otherwise, draw from the deck
+
+    if (tempsuit == cardCopy[0].suit && tempval > cardCopy[0].value){
+      computerHand.addCard(discardPile.draw())
+
+    }
+    else{
+      computerHand.addCard(deck.draw());
+    }
   }
   // if 2 cards are the same suit, attempt to draw a 3rd card of that same suit.
   else if (cardCopy[0].suit == cardCopy[1].suit || cardCopy[0].suit == cardCopy[2].suit || cardCopy[1].suit == cardCopy[2].suit) {
+    for (var i=0; i<cardCopy.length; i++){
+      if (tempsuit == cardCopy[i].suit){ // check if discard pile card matches suit
+        cardflag = true;
+      }
+    }
+    if (cardflag == true){
+      computerHand.addCard(discardPile.draw());
+      //discard card that is not same suit
+    }
+    else{
+      computerHand.addCard(deck.draw());
+      //discard card that is not the same suit
+    }
 
   }
   // if 2 cards are the same value, attempt to draw a 3rd card of that same value.
   else if (cardCopy[0].value == cardCopy[1].value || cardCopy[0].value == cardCopy[2].value || cardCopy[1].value == cardCopy[2].value) {
-
+    for (var i=0; i<cardCopy.length; i++){
+      if (tempvalue == cardCopy[i].value){ // check if discard pile card matches value
+        cardflag = true;
+      }
+    }
+    if (cardflag == true){
+      computerHand.addCard(discardPile.draw());
+      //discard card with different value
+    }
+    else{
+      computerHand.addCard(deck.draw());
+      //discard card with different value
+    }
   }
   // if 2 cards are in the set (ace,2,3) then attempt to draw the third card of the set.
   else if () {
-
+    //
   }
   // if 2 cards are in the set (3,ace,4) then attempt to draw the third card of the set.
   else if () {
 
   }
-  //
+  // if the discard card is 8, 9, or 10 and matches one of our suits choose it,
+  // discarding the lowest valued card of the other 2 cards
   else {
-    // if the discard card is 8, 9, or 10 and matches one of our suits choose it,
-    // discarding the lowest valued card of the other 2 cards.
-
+    if (tempval == 8 || tempval == 9 || tempval == 10){
+      for (var i=0; i < cardCopy.length; i++){
+        if (tempsuit == cardCopy[i].suit){
+          cardflag = true;
+        }
+      }
+      if (cardflag == true){
+        computerHand.addcard(discardPile.draw());
+        //computerDiscard(computerHand[0]);
+      }
+    }
     // otherwise draw a new card, if it matches one of our suits, discard one of
     // the other 2 cards with the lowest value. If if doesn't match, simply
     // discard the lowest value card of the 4.
+    else{
+      computerHand.addCard(deck.draw());
+      for (var i=0; i<computerHand.length; i++){
+        if (computerHand[3].suit == computerHand[i].suit){
+          cardflag = true;
+        }
+      }
+      if (cardflag == true){
+
+
+      }
+
+      else{
+        if (computerHand[3].value > computerHand[0].value){
+          computerDiscard(computerHand[0]);
+        }
+        else{
+          computerDiscard(computerHand[3]);
+        }
+      }
+    }
+
+
   }
 
-  computerHand.addCard(deck.draw());
+  //computerHand.addCard(deck.draw());
 }
 // TODO: decide which card to discard
 function computerDiscard() {

@@ -84,22 +84,6 @@ function Hand(cards, imgElements, hideCards) {
       }
       return Math.max(scores.clubs, scores.spades, scores.hearts, scores.diamonds);
 
-
-      /*
-      var highcard = 0
-
-      for (var i=0; i<cardCopy.length-1; i++){
-        for (var j=1; j<cardCopy.length-1; j++){
-          if (cardCopy[i].value >= cardCopy[j].value){
-            highcard = cardCopy[i].value
-          }
-          else {
-            highcard = cardCopy[j].value
-          }
-        }
-      }
-      return highcard
-      */
     }
   }
 
