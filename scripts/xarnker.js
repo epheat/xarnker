@@ -37,6 +37,10 @@ var playerName = "name";
 
 function beginSet() {
 
+  hand = 0;
+  playerHandsWon = 0;
+  computerHandsWon = 0;
+
   playerName = document.getElementById("nameInput").value;
 
   renderPlayerName();
@@ -44,9 +48,10 @@ function beginSet() {
   renderRound();
   renderHand();
 
-  hand = 0;
-  playerHandsWon = 0;
-  computerHandsWon = 0;
+  renderPlayerHandIndicators();
+  renderComputerHandIndicators();
+
+
   dealNewHand();
 
 }
@@ -204,10 +209,11 @@ function computerDraw() {
   }
   // if 2 cards are in the set (ace,2,3) then attempt to draw the third card of the set.
   else if () {
-    //
+  else if (false) {
   }
   // if 2 cards are in the set (3,ace,4) then attempt to draw the third card of the set.
   else if () {
+  else if (false) {
 
   }
   // if the discard card is 8, 9, or 10 and matches one of our suits choose it,
@@ -262,6 +268,19 @@ function computerDiscard() {
 // TODO: last hand completed!
 function endSet() {
   console.log("That's all folks");
+  if (playerHandsWon > computerHandsWon) {
+    setTimeout(function() {
+      computerWinElement.classList.remove("shown");
+      playerWinElement.classList.remove("shown");
+      renderDiscardTip('<h3>Congratulations, you won! Click "New Game" to start another game.</h3>');
+    }, 800);
+  } else {
+    setTimeout(function() {
+      computerWinElement.classList.remove("shown");
+      playerWinElement.classList.remove("shown");
+      renderDiscardTip('<h3>Too bad, the CPU won! Click "New Game" to try again.</h3>');
+    }, 800);
+  }
 }
 
 function debug() {
